@@ -1,19 +1,17 @@
-import React from "react";
-import HeadComponent from '../components/Head';
+import React from 'react'
+import HeadComponent from '../components/Head'
 
 // Constants
-const TWITTER_HANDLE = "_buildspace";
-const TWITTER_LINK = `https://twitter.com/${TWITTER_HANDLE}`;
+const TWITTER_HANDLE = 'iamoperand'
+const TWITTER_LINK = `https://twitter.com/${TWITTER_HANDLE}`
 
 const App = () => {
-  
-  
   return (
     <div className="App">
-      <HeadComponent/>
+      <HeadComponent />
       <div className="container">
         <header className="header-container">
-          <p className="header"> 😳 Buildspace Emoji Store 😈</p>
+          <p className="header"> 😳 Emoji Store 😈</p>
           <p className="sub-text">The only emoji store that accepts sh*tcoins</p>
         </header>
 
@@ -28,11 +26,11 @@ const App = () => {
             href={TWITTER_LINK}
             target="_blank"
             rel="noreferrer"
-          >{`built on @${TWITTER_HANDLE}`}</a>
+          >{`built by @${TWITTER_HANDLE}`}</a>
         </div>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default App;
+export default App

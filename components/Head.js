@@ -1,5 +1,5 @@
-import React from "react";
-import Head from "next/head";
+import React from 'react'
+import Head from 'next/head'
 
 export default function HeadComponent() {
   return (
@@ -25,5 +25,5 @@ export default function HeadComponent() {
       <meta property="twitter:description" content="Buy items on my store using Solana Pay!" />
       <meta property="twitter:image" content="https://cdn.buildspace.so/courses/solana-pay/metadata.png" />
     </Head>
-  );
+  )
 }
