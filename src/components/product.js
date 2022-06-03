@@ -1,7 +1,7 @@
 import React from 'react'
 
 import styles from 'styles/Product.module.css'
-import IPFSDownload from './ipfs-download'
+import Buy from './buy'
 
 export default function Product({ product }) {
   const { id, name, price, description, image_url } = product
@@ -20,11 +20,7 @@ export default function Product({ product }) {
 
         <div className={styles.product_action}>
           <div className={styles.product_price}>{price} USDC</div>
-          <IPFSDownload
-            filename="og-emoji.png"
-            hash="QmcrVpuCDjgfDmGjUTpw9tMTu7hyMWAv7kAm9kiLkYMya8"
-            cta="Download emojis"
-          />
+          <Buy itemID={id} />
         </div>
       </div>
     </div>
