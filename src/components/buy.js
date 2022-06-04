@@ -1,17 +1,25 @@
-import React, { useState, useMemo } from 'react'
+import React, { useState, useMemo, useEffect } from 'react'
 import { Keypair, Transaction } from '@solana/web3.js'
 import { useConnection, useWallet } from '@solana/wallet-adapter-react'
 import { InfinitySpin } from 'react-loader-spinner'
+import { findReference, FindReferenceError } from '@solana/pay'
 
 import IPFSDownload from './ipfs-download'
+import { addOrder } from 'lib/api'
+
+const STATUS = {
+  INITIAL: 'INITIAL',
+  SUBMITTED: 'SUBMITTED',
+  PAID: 'PAID',
+}
 
 export default function Buy({ itemID }) {
   const { connection } = useConnection()
   const { publicKey, sendTransaction } = useWallet()
   const orderID = useMemo(() => Keypair.generate().publicKey, []) // Public key used to identify the order
 
-  const [paid, setPaid] = useState(null)
   const [loading, setLoading] = useState(false) // Loading state of all above
+  const [status, setStatus] = useState(STATUS.INITIAL)
 
   // useMemo is a React hook that only computes the value if the dependencies change
   const order = useMemo(
@@ -44,14 +52,43 @@ export default function Buy({ itemID }) {
       // Send the transaction to the network
       const txHash = await sendTransaction(tx, connection)
       console.log(`Transaction sent: https://solscan.io/tx/${txHash}?cluster=devnet`)
-      // Even though this could fail, we're just going to set it to true for now
-      setPaid(true)
+      setStatus(STATUS.SUBMITTED)
     } catch (error) {
       console.error(error)
     } finally {
       setLoading(false)
     }
   }
+
+  useEffect(() => {
+    if (status === STATUS.SUBMITTED) {
+      setLoading(true)
+
+      const interval = setInterval(async () => {
+        console.log('ping')
+        try {
+          const result = await findReference(connection, orderID)
+          console.log('Finding tx reference', result.confirmationStatus)
+          if (result.confirmationStatus === 'confirmed' || result.confirmationStatus === 'finalized') {
+            clearInterval(interval)
+            setStatus(STATUS.PAID)
+            setLoading(false)
+            addOrder(order)
+            alert('Thankyou for the purchase')
+          }
+        } catch (e) {
+          if (e instanceof FindReferenceError) {
+            return null
+          }
+          console.error('Unknown error', e)
+        } finally {
+          setLoading(false)
+        }
+      }, 1000)
+
+      return () => clearInterval(interval)
+    }
+  }, [status])
 
   if (!publicKey) {
     return (
@@ -67,7 +104,7 @@ export default function Buy({ itemID }) {
 
   return (
     <div>
-      {paid ? (
+      {status === STATUS.PAID ? (
         <IPFSDownload
           filename="og-emoji.png"
           hash="QmcrVpuCDjgfDmGjUTpw9tMTu7hyMWAv7kAm9kiLkYMya8"
