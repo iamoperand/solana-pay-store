@@ -4,6 +4,7 @@ import { useWallet } from '@solana/wallet-adapter-react'
 import { WalletMultiButton } from '@solana/wallet-adapter-react-ui'
 
 import Product from 'components/product'
+import CreateProduct from 'components/create-product'
 
 // Constants
 const TWITTER_HANDLE = 'iamoperand'
@@ -12,6 +13,8 @@ const TWITTER_LINK = `https://twitter.com/${TWITTER_HANDLE}`
 const App = () => {
   // This will fetch the users' public key (wallet address) from any wallet we support
   const { publicKey } = useWallet()
+  const isOwner = publicKey ? publicKey.toString() === process.env.NEXT_PUBLIC_OWNER_PUBLIC_KEY : false
+  const [creating, setCreating] = useState(false)
   const [products, setProducts] = useState([])
 
   useEffect(() => {
@@ -45,9 +48,18 @@ const App = () => {
         <header className="header-container">
           <p className="header"> 😳 Emoji Store 😈</p>
           <p className="sub-text">The only emoji store that accepts shitcoins</p>
+
+          {isOwner && (
+            <button className="create-product-button" onClick={() => setCreating(!creating)}>
+              {creating ? 'Close' : 'Create Product'}
+            </button>
+          )}
         </header>
 
-        <main>{publicKey ? renderItemBuyContainer() : renderNotConnectedContainer()}</main>
+        <main>
+          {creating && <CreateProduct />}
+          {publicKey ? renderItemBuyContainer() : renderNotConnectedContainer()}
+        </main>
 
         <div className="footer-container">
           <img alt="Twitter Logo" className="twitter-logo" src="twitter-logo.svg" />

@@ -7,5 +7,14 @@
     "image_url": "https://i.imgur.com/rVD8bjt.png",
     "filename": "og-emoji.png",
     "hash": "QmcrVpuCDjgfDmGjUTpw9tMTu7hyMWAv7kAm9kiLkYMya8"
+  },
+  {
+    "id": 2,
+    "name": "god emojis",
+    "price": "0.03",
+    "image_url": "https://i.imgur.com/3BGGs6D.jpeg",
+    "description": "",
+    "filename": "Emojis (1).zip",
+    "hash": "QmYVkzo1pkbQJrkmvF82pLXQLQ31LUc2J3qUd8Shq47Cnn"
   }
 ]

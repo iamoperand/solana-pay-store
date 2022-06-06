@@ -1,5 +1,5 @@
 .background_blur{
-  background-image: url(../public/blur-bg.png);
+  background-image: url(../../public/blur-bg.png);
   background-repeat: no-repeat;
   background-size: cover;
   background-position: center;
@@ -43,7 +43,7 @@
 }
 
 .button:hover {
-  background-image: url(../public/blur-bg.png);
+  background-image: url(../../public/blur-bg.png);
   color: white;
   -webkit-animation: bg-pan-left 2s linear infinite alternate both;
   animation: bg-pan-left 2s ease-in-out infinite alternate both;
@@ -51,7 +51,7 @@
 
 .header {
   text-align: center;
-  background-image: url(../public/blur-bg.png);
+  background-image: url(../../public/blur-bg.png);
   padding: 0 150px;
   border-radius: 10px 10px 0 0;
 }
